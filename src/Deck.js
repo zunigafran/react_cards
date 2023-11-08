@@ -33,7 +33,7 @@ function Deck() {
       try {
         let drawRes = await axios.get(`${API_BASE_URL}/${deck.deck_id}/draw/`);
 
-        if (drawRes.data.remaining === 0) throw new Error("Deck empty!");
+        if (drawRes.data.remaining === 0) throw new Error("no cards remaining!");
 
         const card = drawRes.data.cards[0];
 
@@ -52,7 +52,7 @@ function Deck() {
     }
 
     if (isDrawing && !timerRef.current) {
-      timerRef.current = setInterval(fetchCard, 1000);
+      timerRef.current = setInterval(fetchCard, 500);
     } else if (!isDrawing && timerRef.current) {
       stopDrawingCards()
     }
@@ -101,7 +101,7 @@ function Deck() {
             className="Deck-gimme"
             onClick={toggleDraw}
             disabled={isShuffling}>
-          {isDrawing ? "STOP " : "KEEP "} DRAWING FOR ME
+          {isDrawing ? "STOP " : "GO "} WITH A CARD
         </button>
     );
   }
@@ -114,7 +114,7 @@ function Deck() {
             className="Deck-gimme"
             onClick={startShuffling}
             disabled={isShuffling}>
-          SHUFFLE DECK
+          SHUFFLE THE DECK
         </button>
     );
   }
